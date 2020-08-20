@@ -1,7 +1,6 @@
 package com.jie.socketdemo;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -28,8 +27,6 @@ public class MainActivity extends AppCompatActivity {
 
         mEtIp = findViewById(R.id.et_ip);
         mEtData = findViewById(R.id.et_data);
-
-        mEtIp.setText("192.168.2.108");
 
         // 连接服务器
         findViewById(R.id.btn_connect).setOnClickListener(new View.OnClickListener() {
@@ -70,13 +67,8 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.btn_send).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String data = mEtData.getText().toString();
-                if (!TextUtils.isEmpty(data)) {
-                    //在后面加上 '\0' ,为了方便服务端解析；
-                    data = data + '\0';
-                }
+                final String data = mEtData.getText().toString();
 
-                final String finalData = data;
                 Thread thread = new Thread(){
                     @Override
                     public void run() {
@@ -84,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                         if(mIsConnected && mOutputStream != null){
                             try {
                                 // 将String转换成byte[]传输数据，使用UTF-8编码，服务端也使用UTF-8转换，支持中文
-                                mOutputStream.write(finalData.getBytes(StandardCharsets.UTF_8));
+                                mOutputStream.write(data.getBytes(StandardCharsets.UTF_8));
 
                                 runOnUiThread(new Runnable() {
                                     @Override
