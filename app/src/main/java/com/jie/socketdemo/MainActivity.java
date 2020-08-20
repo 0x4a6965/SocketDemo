@@ -69,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 final String data = mEtData.getText().toString();
 
+
                 Thread thread = new Thread(){
                     @Override
                     public void run() {
